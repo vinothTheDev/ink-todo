@@ -1,16 +1,21 @@
 import { Box, render, Text, useInput } from "ink";
 import { useState } from "react";
 
-const TODOS = [
-  'Buy milk',
-  'Practice Git diff',
-  'Master Ink layout'
-];
 export default function App() {
   const [selected, setSelected] = useState(0)
+  const [todos, setTodos] = useState([
+      {name: 'Buy milk', done: false},
+      {name: 'Practice Git diff',  done: false},
+      {name: 'Master Ink layout', done: false}
+  ])
   useInput((i,k) => {
-    if (k.downArrow) setSelected(p=> (p+1)%TODOS.length)
-    if (k.upArrow) setSelected(p=> (p-1+ TODOS.length)%TODOS.length)
+    if (k.downArrow) setSelected(p=> (p+1)%todos.length)
+    if (k.upArrow) setSelected(p => (p - 1 + todos.length) % todos.length)
+    if (i === ' ') {
+      setTodos(p => p.map((t, i) =>
+        selected === i ? { ...t, done: !t.done } : t)
+      )
+    }
   })
   return (
     <Box flexDirection="column">
@@ -20,9 +25,9 @@ export default function App() {
       </Box>
       {/*List*/}
       <Box flexDirection="column" padding={1}>
-        {TODOS.map((todo, i) => (
+        {todos.map((todo, i) => (
           <Text key={i} color={selected===i ? 'cyan': 'white'} bold={selected===i}>
-            {selected===i ? '>':' '}{todo}
+            { todo.done? "[x]": "[ ]"}{todo.name}
           </Text>
         ))}
       </Box>
@@ -30,4 +35,4 @@ export default function App() {
   );
 }
 
-render(<App/>)
+render(<App />)
