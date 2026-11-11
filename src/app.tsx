@@ -1,4 +1,5 @@
-import { Box, render, Text } from "ink";
+import { Box, render, Text, useInput } from "ink";
+import { useState } from "react";
 
 const TODOS = [
   'Buy milk',
@@ -6,6 +7,11 @@ const TODOS = [
   'Master Ink layout'
 ];
 export default function App() {
+  const [selected, setSelected] = useState(0)
+  useInput((i,k) => {
+    if (k.downArrow) setSelected(p=> (p+1)%TODOS.length)
+    if (k.upArrow) setSelected(p=> (p-1+ TODOS.length)%TODOS.length)
+  })
   return (
     <Box flexDirection="column">
       {/*header*/}
@@ -15,7 +21,9 @@ export default function App() {
       {/*List*/}
       <Box flexDirection="column" padding={1}>
         {TODOS.map((todo, i) => (
-          <Text key={i}>{todo}</Text>
+          <Text key={i} color={selected===i ? 'cyan': 'white'} bold={selected===i}>
+            {selected===i ? '>':' '}{todo}
+          </Text>
         ))}
       </Box>
     </Box>
