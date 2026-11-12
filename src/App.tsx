@@ -21,6 +21,10 @@ export default function App() {
     if (i === 'c') {
       setTodos(prev => prev.filter(t => !t.done));
     }
+    if (i === 'd' && todos.length > 0) {
+      setTodos(prev => prev.filter((_, idx) => idx !== selected));
+      setSelected(prev => Math.max(0, Math.min(prev, todos.length - 2)));
+    }
   })
   const doneCount = todos.filter(t=> t.done).length
   return (
@@ -41,7 +45,7 @@ export default function App() {
       <Box width={"100%"} justifyContent="center">
         <Text dimColor>Completed: {doneCount}/{todos.length }</Text>
       </Box>
-      <Text dimColor>Space: Toggle  •  c: Clear  •  q: Quit</Text>
+      <Text dimColor>Space: Toggle  •  c: Clear  •  q: Quit  •  d: Delete</Text>
     </Box>
   );
 }
