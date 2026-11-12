@@ -1,16 +1,47 @@
 import { TextInput } from "@inkjs/ui";
 import { Box, render, Text, useApp, useInput } from "ink";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import fs from "node:fs";
+import path from "node:path";
+const FILE_PATH = path.resolve(process.cwd(), "todos.json");
+
+type Todo = { name: string; done: boolean };
+
+const DEFAULT_TODOS: Todo[] = [
+  { name: "Buy milk", done: false },
+  { name: "Practice Git diff", done: false },
+  { name: "Master Ink layout", done: false },
+];
+
+function loadTodos(): Todo[] {
+  try {
+    if (fs.existsSync(FILE_PATH)) {
+      return JSON.parse(fs.readFileSync(FILE_PATH, "utf-8"));
+    }
+  } catch {
+    // fallback on error
+  }
+  return DEFAULT_TODOS;
+}
+
+function saveTodos(todos: Todo[]) {
+  try {
+    fs.writeFileSync(FILE_PATH, JSON.stringify(todos, null, 2), "utf-8");
+  } catch {
+    // silent fail or log
+  }
+}
 
 export default function App() {
   const {exit} = useApp()
   const [selected, setSelected] = useState(0)
-  const [todos, setTodos] = useState([
-      {name: 'Buy milk', done: false},
-      {name: 'Practice Git diff',  done: false},
-      {name: 'Master Ink layout', done: false}
-  ])
+  const [todos, setTodos] = useState(
+    ()=> loadTodos()
+  )
   const [isAdding, setIsAdding] = useState(false);
+  useEffect(() => {
+    saveTodos(todos);
+  }, [todos]);
   useInput((i, k) => {
     if (isAdding) {
       if (k.escape) setIsAdding(false);
