@@ -1,3 +1,4 @@
+import { TextInput } from "@inkjs/ui";
 import { Box, render, Text, useApp, useInput } from "ink";
 import { useState } from "react";
 
@@ -9,8 +10,17 @@ export default function App() {
       {name: 'Practice Git diff',  done: false},
       {name: 'Master Ink layout', done: false}
   ])
+  const [isAdding, setIsAdding] = useState(false);
   useInput((i, k) => {
-    if (i==='q') exit()
+    if (isAdding) {
+      if (k.escape) setIsAdding(false);
+      return;
+    }
+    if (i === 'q') exit()
+    if (i === 'a') {
+        setIsAdding(true);
+        return;
+    }
     if (k.downArrow) setSelected(p=> (p+1)%todos.length)
     if (k.upArrow) setSelected(p => (p - 1 + todos.length) % todos.length)
     if (i === ' ') {
@@ -45,7 +55,22 @@ export default function App() {
       <Box width={"100%"} justifyContent="center">
         <Text dimColor>Completed: {doneCount}/{todos.length }</Text>
       </Box>
-      <Text dimColor>Space: Toggle  •  c: Clear  •  q: Quit  •  d: Delete</Text>
+      {isAdding ? (
+        <Box marginTop={1}>
+          <Text color="green" bold>New: </Text>
+          <TextInput
+            placeholder="Enter todo title (Enter to save, Esc to cancel)..."
+            onSubmit={(value) => {
+              const trimmed = value.trim();
+              if (trimmed) {
+                setTodos(prev => [...prev, { name: trimmed, done: false }]);
+              }
+              setIsAdding(false);
+            }}
+          />
+        </Box>
+      ) : null}
+      <Text dimColor>Space: Toggle • a: Add • d: Delete • c: Clear • q: Quit</Text>
     </Box>
   );
 }
