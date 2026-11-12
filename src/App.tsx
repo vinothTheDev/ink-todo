@@ -17,6 +17,7 @@ export default function App() {
       )
     }
   })
+  const doneCount = todos.filter(t=> t.done).length
   return (
     <Box flexDirection="column">
       {/*header*/}
@@ -30,6 +31,10 @@ export default function App() {
             { todo.done? "[x]": "[ ]"}{todo.name}
           </Text>
         ))}
+      </Box>
+      {/*Count*/}
+      <Box width={"100%"} justifyContent="center">
+        <Text dimColor>Completed: {doneCount}/{todos.length }</Text>
       </Box>
     </Box>
   );
