@@ -10,7 +10,7 @@ export default function App() {
       {name: 'Master Ink layout', done: false}
   ])
   useInput((i, k) => {
-    if (i==='q'|| k.escape) exit()
+    if (i==='q') exit()
     if (k.downArrow) setSelected(p=> (p+1)%todos.length)
     if (k.upArrow) setSelected(p => (p - 1 + todos.length) % todos.length)
     if (i === ' ') {
