@@ -36,6 +36,7 @@ export default function App() {
       <Box width={"100%"} justifyContent="center">
         <Text dimColor>Completed: {doneCount}/{todos.length }</Text>
       </Box>
+      <Text dimColor>↑/↓: Navigate  •  Space: Toggle</Text>
     </Box>
   );
 }
