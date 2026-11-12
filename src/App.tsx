@@ -41,7 +41,7 @@ export default function App() {
       <Box width={"100%"} justifyContent="center">
         <Text dimColor>Completed: {doneCount}/{todos.length }</Text>
       </Box>
-      <Text dimColor>Space: Toggle  •  c: Clear done  •  q: Quit</Text>
+      <Text dimColor>Space: Toggle  •  c: Clear  •  q: Quit</Text>
     </Box>
   );
 }
