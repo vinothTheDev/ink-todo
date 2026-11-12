@@ -1,14 +1,16 @@
-import { Box, render, Text, useInput } from "ink";
+import { Box, render, Text, useApp, useInput } from "ink";
 import { useState } from "react";
 
 export default function App() {
+  const {exit} = useApp()
   const [selected, setSelected] = useState(0)
   const [todos, setTodos] = useState([
       {name: 'Buy milk', done: false},
       {name: 'Practice Git diff',  done: false},
       {name: 'Master Ink layout', done: false}
   ])
-  useInput((i,k) => {
+  useInput((i, k) => {
+    if (i==='q'|| k.escape) exit()
     if (k.downArrow) setSelected(p=> (p+1)%todos.length)
     if (k.upArrow) setSelected(p => (p - 1 + todos.length) % todos.length)
     if (i === ' ') {
@@ -41,4 +43,4 @@ export default function App() {
   );
 }
 
-render(<App />)
+render(<App />, {alternateScreen: true})
