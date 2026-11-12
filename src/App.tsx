@@ -24,7 +24,7 @@ export default function App() {
     <Box flexDirection="column">
       {/*header*/}
       <Box borderStyle={"double"} width={"100%"} justifyContent="center">
-        <Text color="magenta" bold>Ink Todo</Text>
+        <Text color="red" bold>Ink Todo</Text>
       </Box>
       {/*List*/}
       <Box flexDirection="column" padding={1}>
